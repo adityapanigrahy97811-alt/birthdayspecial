@@ -1,6 +1,6 @@
-# 💖 Happy Birthday Bestie - Birthday Surprise Web App
+# 💖 Happy Birthday Bestie - Streamlit Web App
 
-A gorgeous, interactive, and emotional birthday surprise web application designed to celebrate a best friend. It features smooth scrolling, cinematic typing animations, floating particles, interactive cards, and a music player.
+A gorgeous, interactive, and emotional birthday surprise web application designed to celebrate a best friend. It features smooth scrolling, cinematic typing animations, floating particles, interactive cards, a music player, and is wrapped in a Streamlit container for easy deployment.
 
 ## ✨ Features
 - **Gateway Intro**: A romantic/heartfelt greeting card gateway to enter the safe space.
@@ -11,37 +11,28 @@ A gorgeous, interactive, and emotional birthday surprise web application designe
 - **Interactive Smile Button**: An interactive trigger that fires canvas confetti and reveals a hidden sweet note.
 - **Floating Vinyl Music Player**: A revolving vinyl disc music player to toggle background music.
 
-## 🛠️ Requirements & Tech Stack
-- **HTML5 & CSS3** (Vanilla CSS for premium glassmorphism styling)
-- **JavaScript (ES6+)**
-- **Libraries (Loaded via CDN)**:
-  - [GSAP (GreenSock)](https://greensock.com/gsap/) & [ScrollTrigger](https://greensock.com/scrolltrigger/) for advanced scroll-linked animations.
-  - [Canvas Confetti](https://github.com/catdad/canvas-confetti) for celebratory confetti blasts.
+## 🛠️ Tech Stack
+- **Python & Streamlit** (for application hosting and serving)
+- **HTML5, CSS3, & JavaScript** (embedded in a secure iframe)
+- **GSAP & Canvas Confetti** (for animations and celebratory effects)
 
 ## 🚀 How to Run Locally
-1. **Clone the repository**:
+1. **Install requirements**:
    ```bash
-   git clone https://github.com/adityapanigrahy97811-alt/birthday.git
-   cd birthday
+   pip install -r requirements.txt
    ```
-2. **Open index.html**:
-   - Double-click `index.html` to open it in your browser.
-   - Alternatively, serve it locally using a development server for the best experience (especially if adding local audio or handling permissions):
-     ```bash
-     # Using Python
-     python -m http.server 8000
-     
-     # Using Node.js
-     npx serve
-     ```
-3. Open `http://localhost:8000` (or the port specified) in your browser.
+2. **Run the Streamlit application**:
+   ```bash
+   streamlit run app.py
+   ```
+3. Open `http://localhost:8501` in your browser.
 
-## 📂 Project Structure
-- `index.html` - Structure of the interactive sections.
-- `styles.css` - Glassmorphism, animations, layouts, and responsive designs.
-- `script.js` - GSAP animations, particle canvas, confetti effects, and player logic.
-- `assets/` - Image assets for the polaroid scrapbook.
-- `requirements.txt` - Project dependencies and setup specifications.
+## ☁️ How to Deploy to Streamlit Community Cloud (Free)
+1. Commit and push all files (including `app.py` and `requirements.txt`) to your GitHub repository.
+2. Go to [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
+3. Click **Create app** (or **New app**).
+4. Select your repository (`birthday`), branch (`main`), and set the main file path to `app.py`.
+5. Click **Deploy!** 🚀
 
 ---
 Made with 💖.

@@ -1,17 +1,1 @@
-# Birthday Surprise Web Application - Requirements
-
-This is a static web application built using HTML5, CSS3, and JavaScript. 
-It runs directly in the browser and does not require a backend language (like Python, Node.js, or Ruby) to execute.
-
-## Client-Side Requirements:
-- Modern Web Browser (Google Chrome, Mozilla Firefox, Apple Safari, Microsoft Edge, etc.)
-- Active Internet Connection (required to fetch the following external libraries via CDN):
-  - GSAP (GreenSock Animation Platform) v3.12.5 (for smooth cinematic animations)
-  - GSAP ScrollTrigger plugin (for scroll-based animations)
-  - Canvas Confetti v1.9.3 (for birthday celebration effects)
-
-## Local Development Server Options (Optional):
-To run the project locally with full features, you can use any simple HTTP server:
-- Python 3: `python -m http.server 8000`
-- Node.js (npm): `npx serve` or `npm install -g serve`
-- VS Code Extension: Live Server
+streamlit
