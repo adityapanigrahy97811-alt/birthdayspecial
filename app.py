@@ -5,7 +5,7 @@ import os
 
 # Set page configuration to make it wide and clean
 st.set_page_config(
-    page_title="Happy Birthday Bestie 💖",
+    page_title="For My Favorite Person 💖",
     page_icon="💖",
     layout="wide",
     initial_sidebar_state="collapsed"
