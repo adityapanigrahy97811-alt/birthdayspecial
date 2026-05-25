@@ -457,7 +457,7 @@
       onComplete: () => {
         /* Type subtitle */
         const sub = document.getElementById('birthdaySubtitle');
-        typeText(sub, 'You deserve love that stays, friendships that heal, and happiness that never leaves.', 40);
+        typeText(sub, 'You deserve love that stays, a heart that heals, and happiness that never leaves. 💖', 40);
         /* Animate decoration */
         gsap.to('.birthday-decoration', { opacity: 1, duration: 1, delay: 0.5 });
       }
@@ -611,12 +611,12 @@
   /*  SMILE BUTTON INTERACTION                       */
   /* ═══════════════════════════════════════════════ */
   const smileMessages = [
-    "You survived every bad day and still became such a beautiful soul. I'm proud of you 🌸",
-    "Friendly reminder: You are amazing, and anyone who made you feel otherwise is a certified potato. 🥔",
-    "No matter how tough life gets, remember: you still have to listen to my terrible jokes. 💖",
-    "If we are ever in a zombie apocalypse, I will trip someone else so you can escape. That's true friendship. 🧟‍♂️",
-    "You are the cheese to my macaroni, the peanut butter to my jelly, and the therapist to my chaotic life. 🧀",
-    "Legal notice: You are stuck with me forever. Return policy is invalid. 📜💕"
+    "You survived every bad day and still became such a beautiful soul. I'm so proud of you, my love 🌸",
+    "No matter how tough life gets, remember: my arms will always be your favorite safe space. 🏡💖",
+    "Friendly reminder: You are the most beautiful person in the world, and I love you infinitely. 🧸💕",
+    "If we are ever in a zombie apocalypse, I will hold your hand and we will run together. That's real love. 🧟‍♂️❤️",
+    "You are my favorite notification, my late-night peace, and my happiest thought. 📱✨",
+    "Legal romantic notice: You are stuck with me forever. Return policy is absolutely invalid! 📜💍"
   ];
 
   smileBtn.addEventListener('click', () => {
@@ -697,7 +697,7 @@
       /* Type second message */
       await typeText(
         document.getElementById('typed-2'),
-        'Today is not about the pain you faced… Today is about celebrating the amazing person you are 🌸',
+        'Today is not about the pain you faced… Today is about celebrating the amazing person you are, my love 🌸',
         50
       );
 
