@@ -684,7 +684,7 @@
       /* Type first message */
       await typeText(
         document.getElementById('typed-1'),
-        'Some people broke your heart… but they could never break your beautiful soul 💖',
+        'You are the most beautiful part of my life, bringing light to my darkest days 💖',
         50
       );
 
@@ -697,7 +697,7 @@
       /* Type second message */
       await typeText(
         document.getElementById('typed-2'),
-        'Today is not about the pain you faced… Today is about celebrating the amazing person you are, my love 🌸',
+        'Today is all about celebrating you and the endless happiness you deserve, my love 🌸',
         50
       );
 
