@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For My Favorite Person 💖</title>
-  <meta name="description" content="A cute romantic surprise card with glowing animations, floating hearts, and soft pastel aesthetics.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Bestie 💖</title>
+  <meta name="description" content="A heartfelt, emotional birthday surprise for the most beautiful soul." />
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Outfit:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sacramento&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reenie+Beanie&display=swap" rel="stylesheet" />
 
-  <!-- FontAwesome for cute icons if needed -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -21,154 +22,242 @@
 </head>
 <body>
 
-  <!-- Background Canvas for Hearts & Twinkling Sparkles -->
-  <canvas id="loveCanvas"></canvas>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- CANVAS: Background particles (petals, hearts, sparkles) -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <canvas id="particleCanvas"></canvas>
   <canvas id="cursorCanvas"></canvas>
 
-  <!-- Gateway Front Page -->
-  <div id="intro-gateway" class="gateway-overlay">
-    <div class="gateway-card glass-card">
-      <div class="envelope-container">
-        <div class="envelope-glow"></div>
-        <span class="envelope-icon">💌</span>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- INTRO OVERLAY — Dark gateway -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div id="intro-overlay">
+    <div class="intro-content">
+      <div class="intro-heart-container">
+        <svg class="intro-heart" viewBox="0 0 64 64" fill="none">
+          <path d="M32 56S8 40 8 22a12 12 0 0 1 24-2 12 12 0 0 1 24 2c0 18-24 34-24 34Z" fill="url(#heartGrad)" />
+          <defs>
+            <linearGradient id="heartGrad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF6B9D" />
+              <stop offset="1" stop-color="#E8536D" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="intro-heart-glow"></div>
       </div>
-      <h1 class="gateway-title">For My Favorite Person 💖</h1>
-      <p class="gateway-subtitle">A little surprise waiting for you...</p>
-      <button id="enterSurpriseBtn" class="enter-btn pulse-btn">
-        <span class="btn-text">Open Your Surprise 🌸</span>
+      <p class="intro-subtitle">A little something made with love…</p>
+      <button id="enterBtn" class="enter-btn">
+        <span>Enter Her Safe Space</span>
+        <span class="btn-heart">💖</span>
       </button>
+      <p class="intro-hint">tap to begin</p>
     </div>
   </div>
 
-  <!-- Sound Toggle Button -->
-  <button id="musicToggle" class="music-toggle" aria-label="Toggle Romantic Music">
-    <div class="music-note-icon">🎵</div>
-    <span class="tooltip-text">Click for music 💖</span>
-  </button>
-
-  <!-- Fairy Lights at the Top -->
-  <div class="fairy-lights-container">
-    <svg class="fairy-lights-string" viewBox="0 0 1200 80" preserveAspectRatio="none">
-      <!-- Wavy string path -->
-      <path d="M0,20 C100,50 200,5 300,35 C400,65 500,10 600,40 C700,70 800,15 900,45 C1000,75 1100,20 1200,30" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-    </svg>
-    <div class="fairy-bulbs" id="fairyBulbs"></div>
-  </div>
-
-  <!-- Main Card Container -->
-  <div class="card-wrapper">
-    <main class="love-card glass-card">
-      <div class="card-glow-effect"></div>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 1: Opening Cinematic Scene -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="opening-scene" class="scene opening-scene">
+    <div class="scene-content">
+      <div class="typing-card" id="typing-card-1">
+        <p class="typed-text" id="typed-1"></p>
+      </div>
+      <div class="typing-card" id="typing-card-2">
+        <p class="typed-text" id="typed-2"></p>
+      </div>
       
-      <!-- Top Decorative Elements -->
-      <div class="top-deco">
-        <span class="sparkle-icon">✨</span>
-        <span class="rose-icon">🌸</span>
-        <span class="sparkle-icon">✨</span>
-      </div>
-
-      <!-- Cursive Handwritten Title -->
-      <h1 class="love-title">Hey Cutie ❤️</h1>
-
-      <!-- Heart Dividers -->
-      <div class="love-divider">
-        <span class="line"></span>
-        <span class="heart-symbol">❦</span>
-        <span class="line"></span>
-      </div>
-
-      <!-- Romantic Message Block -->
-      <div class="love-message">
-        <p class="message-line">You are the most beautiful part of my life 🌸</p>
-        <p class="message-line">Every smile of yours makes my world brighter ✨</p>
-        <p class="message-line">No matter what happens, I’ll always choose you 💕</p>
-        <p class="message-line">You are my favorite feeling, my peace, and my happiness 💌</p>
-      </div>
-
-      <!-- Cute Silhouette Scene in the Card -->
-      <div class="silhouette-container">
-        <!-- Glowing Moon -->
-        <div class="mini-moon"></div>
-        <!-- SVG Couple Silhouette -->
-        <svg class="couple-svg" viewBox="0 0 200 150">
-          <!-- Small hill silhouette -->
-          <path d="M 0 140 Q 100 115 200 140 L 200 150 L 0 150 Z" fill="#2d1226"/>
-          <!-- Anime couple silhouettes holding hands -->
-          <!-- Boy -->
-          <path d="M 85 130 C 85 115 88 108 83 103 C 83 103 80 97 82 91 C 83 85 89 83 91 88 C 93 92 90 99 90 102 C 86 106 89 115 89 130 Z" fill="#1b0817"/>
-          <circle cx="87" cy="85" r="4.5" fill="#1b0817"/>
-          <!-- Girl -->
-          <path d="M 115 130 C 115 116 110 108 113 103 C 113 103 116 97 114 91 C 112 85 106 83 104 88 C 102 92 105 99 105 102 C 109 106 107 116 107 130 Z" fill="#1b0817"/>
-          <circle cx="109" cy="85" r="4.2" fill="#1b0817"/>
-          <!-- Ponytail / Hair detail for girl -->
-          <path d="M 112 83 C 114 83 116 86 114 89 C 113 90 111 88 111 86 Z" fill="#1b0817"/>
-          <!-- Holding hands arm curves -->
-          <path d="M 88 100 Q 98 112 106 100" fill="none" stroke="#1b0817" stroke-width="2.5" stroke-linecap="round"/>
+      <div class="scroll-down-hint" id="scrollDownHint">
+        <span class="arrow-text">Scroll down to start the healing journey</span>
+        <svg class="scroll-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
         </svg>
-        <!-- Particle anchors -->
-        <div class="couple-sparkles">
-          <span class="mini-sparkle one">✨</span>
-          <span class="mini-heart one">❤️</span>
-          <span class="mini-sparkle two">✨</span>
-          <span class="mini-heart two">💖</span>
-        </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Moments / Photos Gallery -->
-      <div class="moments-container">
-        <h2 class="moments-title">Our Special Moments 📸</h2>
-        <div class="polaroid-grid">
-          <div class="polaroid-card card-1">
-            <div class="tape-deco"></div>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2: Main Birthday Title -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="birthday-title" class="scene birthday-title-scene">
+    <div class="scene-content">
+      <div class="sparkle-container" id="titleSparkles"></div>
+      <h1 class="birthday-heading" id="birthdayHeading">
+        <span class="heading-line">Happy Birthday</span>
+        <span class="heading-line heading-bestie">Bestie 💖</span>
+      </h1>
+      <div class="birthday-subtitle-container">
+        <p class="birthday-subtitle" id="birthdaySubtitle"></p>
+      </div>
+      <div class="birthday-decoration">
+        <span class="deco-star">✦</span>
+        <span class="deco-line"></span>
+        <span class="deco-heart">♡</span>
+        <span class="deco-line"></span>
+        <span class="deco-star">✦</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3: Memory Gallery (Scrapbook) -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="memory-gallery" class="scene gallery-scene">
+    <div class="scene-content">
+      <h2 class="section-title gallery-title">
+        <span class="title-icon">📸</span>
+        Our Little Scrapbook
+      </h2>
+      <p class="section-subtitle">moments that live in my heart forever</p>
+
+      <div class="polaroid-grid">
+        <div class="polaroid" style="--rot: -4deg; --delay: 0s">
+          <div class="polaroid-inner">
             <div class="polaroid-img-wrap">
-              <img src="assets/photo1.png" alt="Moment 1" loading="lazy">
+              <img src="assets/photo1.png" alt="Memory 1" loading="lazy" />
             </div>
             <p class="polaroid-caption">cozy nights & warm hearts 🍵</p>
           </div>
-          
-          <div class="polaroid-card card-2">
-            <div class="tape-deco"></div>
+          <div class="tape tape-left"></div>
+        </div>
+
+        <div class="polaroid" style="--rot: 3deg; --delay: 0.15s">
+          <div class="polaroid-inner">
             <div class="polaroid-img-wrap">
-              <img src="assets/photo2.png" alt="Moment 2" loading="lazy">
+              <img src="assets/photo2.png" alt="Memory 2" loading="lazy" />
             </div>
             <p class="polaroid-caption">healing is a beautiful journey 🌸</p>
           </div>
-          
-          <div class="polaroid-card card-3">
-            <div class="tape-deco"></div>
+          <div class="tape tape-right"></div>
+        </div>
+
+        <div class="polaroid" style="--rot: -2deg; --delay: 0.3s">
+          <div class="polaroid-inner">
             <div class="polaroid-img-wrap">
-              <img src="assets/photo3.png" alt="Moment 3" loading="lazy">
+              <img src="assets/photo3.png" alt="Memory 3" loading="lazy" />
             </div>
             <p class="polaroid-caption">late night chats & endless laughs 📱💕</p>
           </div>
+          <div class="tape tape-center"></div>
+        </div>
+
+        <div class="scrapbook-note" style="--rot: 5deg; --delay: 0.4s; background: #FFF9C4; color: #5D4037;">
+          <p class="note-text">Warning: Cries during dog videos 🐶🥺</p>
+          <div class="tape tape-center" style="background: rgba(255, 235, 59, 0.45);"></div>
+        </div>
+
+        <div class="scrapbook-note" style="--rot: -6deg; --delay: 0.5s; background: #E1F5FE; color: #0277BD;">
+          <p class="note-text">Certified President of the Overthinking Club 🧠✨</p>
+          <div class="tape tape-left" style="background: rgba(3, 169, 244, 0.35);"></div>
         </div>
       </div>
-
-      <!-- Glowing Action Button -->
-      <div class="button-container">
-        <button id="loveBtn" class="love-button pulse-btn">
-          <span class="btn-glow"></span>
-          <span class="btn-text">Click Me 💖</span>
-        </button>
-      </div>
-
-      <!-- Footer Text -->
-      <footer class="love-footer">
-        <p class="footer-text">Forever Yours 💞</p>
-      </footer>
-    </main>
-  </div>
-
-  <!-- Romantic Overlay Modal (Hidden by default) -->
-  <div id="loveModal" class="modal-overlay">
-    <div class="modal-card glass-modal">
-      <div class="modal-sparkles">
-        <span>✨</span><span>💖</span><span>✨</span><span>🌸</span><span>💖</span>
-      </div>
-      <h2 class="modal-title">I Love You So Much ❤️</h2>
-      <p class="modal-text">You mean the absolute universe to me. Thank you for being mine, my love! 🧸✨</p>
-      <button id="closeModal" class="close-button">Close 🌸</button>
     </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4: Emotional Messages -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="emotional-messages" class="scene messages-scene">
+    <div class="scene-content">
+      <h2 class="section-title messages-title">
+        <span class="title-icon">💌</span>
+        Letters From My Heart
+      </h2>
+
+      <div class="message-cards">
+        <div class="message-card glass-card" data-msg="1">
+          <div class="card-glow"></div>
+          <span class="card-icon">🌷</span>
+          <p class="card-text">"You were always enough, even when people failed to see your worth."</p>
+        </div>
+
+        <div class="message-card glass-card" data-msg="2">
+          <div class="card-glow"></div>
+          <span class="card-icon">🎧</span>
+          <p class="card-text">"I promise to always listen to your 10-minute chaotic voice notes at 2x speed."</p>
+        </div>
+
+        <div class="message-card glass-card" data-msg="3">
+          <div class="card-glow"></div>
+          <span class="card-icon">🌙</span>
+          <p class="card-text">"You deserve people who stay, support, and truly care."</p>
+        </div>
+
+        <div class="message-card glass-card" data-msg="4">
+          <div class="card-glow"></div>
+          <span class="card-icon">👗</span>
+          <p class="card-text">"Even when you make questionable life decisions, I'll be right there to help you choose the outfit."</p>
+        </div>
+
+        <div class="message-card glass-card" data-msg="5">
+          <div class="card-glow"></div>
+          <span class="card-icon">💕</span>
+          <p class="card-text">"I'll always remind you how special you are 💕"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 5: Interactive Smile Button -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="smile-section" class="scene smile-scene">
+    <div class="scene-content">
+      <h2 class="section-title smile-title">A Little Surprise For You</h2>
+      <p class="section-subtitle">because you deserve all the smiles in this world</p>
+
+      <button id="smileBtn" class="smile-btn">
+        <span class="smile-btn-glow"></span>
+        <span class="smile-btn-text">Click When You Need A Smile 💖</span>
+      </button>
+
+      <div id="hiddenMessage" class="hidden-message glass-card">
+        <div class="card-glow"></div>
+        <span class="hidden-msg-icon">🌸</span>
+        <p class="hidden-msg-text">
+          "You survived every bad day and still became such a beautiful soul. I'm proud of you 🌸"
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 6: Final Cinematic Ending -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="final-scene" class="scene final-scene">
+    <div class="scene-content">
+      <div class="final-msg" id="finalMsg1">
+        <p>"No matter how many people hurt you…</p>
+        <p>you still deserve the purest happiness in this world 🌸"</p>
+      </div>
+
+      <div class="final-msg final-thankyou" id="finalMsg2">
+        <p class="thankyou-text">Thank you for existing, Bestie 💖</p>
+      </div>
+
+      <div class="final-hearts" id="finalHearts"></div>
+    </div>
+    <div class="final-glow-overlay" id="finalGlow"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FLOATING MUSIC PLAYER -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div id="musicPlayer" class="music-player">
+    <div class="vinyl-container">
+      <div class="vinyl" id="vinyl">
+        <div class="vinyl-label"></div>
+      </div>
+    </div>
+    <button id="playPauseBtn" class="play-pause-btn" aria-label="Play or Pause Music">
+      <svg class="play-icon" id="playIcon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+        <polygon points="6,3 20,12 6,21" />
+      </svg>
+      <svg class="pause-icon hidden" id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+        <rect x="5" y="3" width="4" height="18" />
+        <rect x="15" y="3" width="4" height="18" />
+      </svg>
+    </button>
   </div>
 
   <script src="script.js"></script>

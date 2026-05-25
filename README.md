@@ -1,38 +1,33 @@
-# 💖 Happy Birthday Bestie - Streamlit Web App
+# 💖 Happy Birthday Bestie - Birthday Surprise Website
 
-A gorgeous, interactive, and emotional birthday surprise web application designed to celebrate a best friend. It features smooth scrolling, cinematic typing animations, floating particles, interactive cards, a music player, and is wrapped in a Streamlit container for easy deployment.
+An extremely emotional, heart-touching, aesthetic, animated birthday surprise website for a girl best friend. Designed to be a "healing digital hug," featuring soft pink, rose red, white, and peach glow themes with romantic warm lighting, paper scrapbook styles, glassmorphism, custom canvas particle animations (hearts, petals, lanterns), and a procedural audio synth/lofi player.
 
 ## ✨ Features
 - **Gateway Intro**: A romantic/heartfelt greeting card gateway to enter the safe space.
 - **Cinematic Typing Animations**: Heartfelt letters typing out word-by-word with beautiful transitions.
 - **Floating Particles**: Real-time canvas-rendered hearts, sparkles, and petals following the user's cursor.
 - **Interactive Polaroid Scrapbook**: A grid of memories taped like real polaroids with delightful hover tilt effects.
-- **Emotional Message Cards**: Glassmorphic letters from the heart that reveal warm wishes.
-- **Interactive Smile Button**: An interactive trigger that fires canvas confetti and reveals a hidden sweet note.
+- **Emotional Message Cards**: Glassmorphic letters from the heart that reveal warm wishes and humorous best-friend notes.
+- **Interactive Smile Button**: An interactive trigger that fires canvas confetti and reveals a hidden sweet note that rotates randomly on click.
 - **Floating Vinyl Music Player**: A revolving vinyl disc music player to toggle background music.
 
 ## 🛠️ Tech Stack
-- **Python & Streamlit** (for application hosting and serving)
-- **HTML5, CSS3, & JavaScript** (embedded in a secure iframe)
-- **GSAP & Canvas Confetti** (for animations and celebratory effects)
+- **HTML5, CSS3, & JavaScript** (vanilla, self-contained)
+- **GSAP & Canvas Confetti** (for animations and celebratory effects via CDN)
+- **Web Audio API** (procedural chimes/ambient piano synth - no external audio file loading lag)
 
 ## 🚀 How to Run Locally
-1. **Install requirements**:
+1. Simply double-click `index.html` or open it in any web browser.
+2. For the best experience (and to avoid local browser audio autoplay restrictions), run a local web server in this folder:
    ```bash
-   pip install -r requirements.txt
+   python -m http.server 8080
    ```
-2. **Run the Streamlit application**:
-   ```bash
-   streamlit run app.py
-   ```
-3. Open `http://localhost:8501` in your browser.
+   and navigate to `http://localhost:8080` in your web browser.
 
-## ☁️ How to Deploy to Streamlit Community Cloud (Free)
-1. Commit and push all files (including `app.py` and `requirements.txt`) to your GitHub repository.
-2. Go to [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
-3. Click **Create app** (or **New app**).
-4. Select your repository (`birthday`), branch (`main`), and set the main file path to `app.py`.
+## ☁️ How to Deploy to Vercel (Free)
+This is a standard static web application, which makes it incredibly simple to deploy to Vercel:
+1. Push all files (`index.html`, `styles.css`, `script.js`, `assets/`) to your GitHub repository.
+2. Log in to [Vercel](https://vercel.com/) with your GitHub account.
+3. Click **Add New** > **Project** and select this repository.
+4. Leave all settings at their default values (Vercel automatically detects it as a static project).
 5. Click **Deploy!** 🚀
-
----
-Made with 💖.
