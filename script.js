@@ -28,6 +28,10 @@
   const musicPlayer = document.getElementById('musicPlayer');
   const smileBtn = document.getElementById('smileBtn');
   const hiddenMessage = document.getElementById('hiddenMessage');
+  const surpriseModal = document.getElementById('surpriseModal');
+  const closeGiftBtn = document.getElementById('closeGiftBtn');
+  const giftBox = document.getElementById('giftBox');
+  const giftInstruction = document.getElementById('giftInstruction');
 
   /* ═══════════════════════════════════════════════ */
   /*  CANVAS SETUP                                   */
@@ -184,11 +188,42 @@
     }
   }
 
+  class ConfettiBackground {
+    constructor() { this.reset(true); }
+    reset(initial = false) {
+      this.x = Math.random() * W();
+      this.y = initial ? Math.random() * H() : -20;
+      this.size = 4 + Math.random() * 6;
+      this.speedY = 1 + Math.random() * 1.5;
+      this.speedX = -0.5 + Math.random() * 1;
+      this.rotation = Math.random() * 360;
+      this.rotSpeed = -3 + Math.random() * 6;
+      this.opacity = 0.2 + Math.random() * 0.4;
+      this.color = ['#FFB6D3', '#FF6B9D', '#E8536D', '#FFF0F5'][Math.floor(Math.random() * 4)];
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      this.rotation += this.rotSpeed;
+      if (this.y > H() + 30) this.reset();
+    }
+    draw(ctx) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate((this.rotation * Math.PI) / 180);
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = this.color;
+      ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size * 0.6);
+      ctx.restore();
+    }
+  }
+
   /* Spawn particles */
   for (let i = 0; i < 25; i++) particles.push(new Petal());
   for (let i = 0; i < 15; i++) particles.push(new Heart());
   for (let i = 0; i < 35; i++) particles.push(new Sparkle());
   for (let i = 0; i < 8; i++) particles.push(new Lantern());
+  for (let i = 0; i < 40; i++) particles.push(new ConfettiBackground());
 
   function animateParticles() {
     pCtx.clearRect(0, 0, W(), H());
@@ -408,6 +443,33 @@
     });
   }
 
+  function playPopEffect(startFreq = 400, endFreq = 100, duration = 0.08) {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(startFreq, now);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, now + duration);
+
+    g.gain.setValueAtTime(0.18, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+    osc.connect(g);
+    g.connect(audioCtx.destination);
+
+    osc.start(now);
+    osc.stop(now + duration + 0.05);
+  }
+
+  function playPopPopEffect() {
+    playPopEffect(450, 100, 0.08);
+    setTimeout(() => {
+      playPopEffect(380, 80, 0.08);
+    }, 100);
+  }
+
   /* ═══════════════════════════════════════════════ */
   /*  TYPING ANIMATION                               */
   /* ═══════════════════════════════════════════════ */
@@ -607,6 +669,28 @@
     }
   }
 
+  function fireLoveSpreader() {
+    const heart1 = confetti.shapeFromText({ text: '💖', scalar: 2 });
+    const heart2 = confetti.shapeFromText({ text: '❤️', scalar: 2 });
+    const heart3 = confetti.shapeFromText({ text: '💕', scalar: 2 });
+    const flower = confetti.shapeFromText({ text: '🌸', scalar: 2 });
+    const star = confetti.shapeFromText({ text: '✨', scalar: 2 });
+
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        confetti({
+          particleCount: 15 + i * 5,
+          spread: 160 + i * 10,
+          startVelocity: 28 + i * 4,
+          shapes: [heart1, heart2, heart3, flower, star],
+          scalar: 2,
+          zIndex: 10006,
+          origin: { x: 0.5, y: 0.6 }
+        });
+      }, i * 150);
+    }
+  }
+
   /* ═══════════════════════════════════════════════ */
   /*  SMILE BUTTON INTERACTION                       */
   /* ═══════════════════════════════════════════════ */
@@ -620,39 +704,58 @@
   ];
 
   smileBtn.addEventListener('click', () => {
-    /* Fire confetti */
-    fireConfetti();
-    if (Math.random() > 0.4) {
-      setTimeout(fireHeartsExplosion, 400);
-    }
+    /* Reset gift box state */
+    giftBox.classList.remove('opened');
+    surpriseModal.classList.remove('opened');
+    giftInstruction.textContent = "Tap the gift to open your surprise... 🎁";
+    giftInstruction.style.animation = "pulseInstruction 1.8s infinite alternate";
 
     /* Chime sound */
     playChimeEffect();
 
-    /* Select a random message */
-    const msgText = document.querySelector('.hidden-msg-text');
-    if (msgText) {
-      const randomMsg = smileMessages[Math.floor(Math.random() * smileMessages.length)];
-      msgText.textContent = randomMsg;
-    }
-
-    /* Show hidden message with clean transition */
-    hiddenMessage.classList.remove('show');
-    setTimeout(() => {
-      hiddenMessage.classList.add('show');
-      gsap.fromTo(hiddenMessage, 
-        { scale: 0.85, opacity: 0, y: 20 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' }
-      );
-    }, 50);
+    /* Open the Modal */
+    surpriseModal.classList.add('show');
 
     /* Glow the button */
     smileBtn.style.boxShadow = '0 0 40px rgba(232, 83, 109, 0.5)';
     smileBtn.style.borderColor = '#FF6B9D';
 
     /* Add extra sparkles temporarily */
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 12; i++) {
       particles.push(new Sparkle());
+    }
+  });
+
+  /* Gift Box opening interaction */
+  giftBox.addEventListener('click', () => {
+    if (!giftBox.classList.contains('opened')) {
+      giftBox.classList.add('opened');
+      surpriseModal.classList.add('opened');
+      giftInstruction.textContent = "Wishing you the happiest birthday! 🌸";
+      giftInstruction.style.animation = "none";
+
+      /* Trigger Confetti, Hearts & Love Spreader */
+      fireConfetti();
+      setTimeout(fireHeartsExplosion, 350);
+      fireLoveSpreader();
+
+      /* Play pop-pop sounds and double chime effect */
+      playPopPopEffect();
+      setTimeout(playChimeEffect, 120);
+    }
+  });
+
+  /* Close Modal */
+  closeGiftBtn.addEventListener('click', () => {
+    surpriseModal.classList.remove('show');
+    surpriseModal.classList.remove('opened');
+  });
+
+  /* Close on clicking outside content */
+  surpriseModal.addEventListener('click', (e) => {
+    if (e.target === surpriseModal) {
+      surpriseModal.classList.remove('show');
+      surpriseModal.classList.remove('opened');
     }
   });
 

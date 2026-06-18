@@ -43,16 +43,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: linear-gradient(180deg,
-    #1a0a10 0%,
-    #2d0f1e 15%,
-    #3d1528 30%,
-    #4a1830 45%,
-    #5a1e3a 60%,
-    #6b2444 75%,
-    #4a1830 90%,
-    #1a0a10 100%
-  );
+  background: radial-gradient(ellipse at top, #65283e 0%, #461d2d 40%, #2f121d 100%);
   color: var(--warm-white);
   min-height: 100vh;
   overflow-x: hidden;
@@ -1025,3 +1016,256 @@ body::before {
 .final-scene::before {
   background: radial-gradient(ellipse at 50% 50%, rgba(232, 83, 109, 0.08), transparent 50%);
 }
+
+/* ═══════════════════════════════════════════════ */
+/*  SURPRISE GIFT MODAL & BOX                     */
+/* ═══════════════════════════════════════════════ */
+.gift-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10005;
+  background: rgba(26, 10, 16, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s var(--transition-smooth), visibility 0.5s;
+}
+
+.gift-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gift-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 50px 24px 40px 24px;
+  box-shadow: 
+    0 24px 70px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gift-modal.show .gift-modal-content {
+  transform: scale(1);
+}
+
+.close-gift-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--pink-200);
+  font-size: 2.2rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.close-gift-btn:hover {
+  color: var(--pink-400);
+  transform: rotate(90deg);
+}
+
+.gift-instruction {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--pink-100);
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
+  animation: pulseInstruction 1.8s infinite alternate;
+}
+
+.gift-box-container {
+  perspective: 1000px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 340px;
+  margin-top: 40px;
+}
+
+.gift-box {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  animation: bounceGift 3s ease-in-out infinite;
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gift-box:hover {
+  transform: scale(1.05);
+}
+
+.gift-box.opened {
+  animation: none;
+  cursor: default;
+}
+
+.gift-box-body {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 125px;
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+  border-radius: 0 0 16px 16px;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gift-box-ribbon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 125px;
+  background: linear-gradient(to bottom, var(--gold-soft), #d8b47b);
+  z-index: 2;
+  box-shadow: 0 0 12px rgba(245, 214, 168, 0.4);
+}
+
+.gift-box-ribbon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -66px;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 28px;
+  background: linear-gradient(to right, var(--gold-soft), #d8b47b);
+  z-index: 2;
+}
+
+.gift-lid {
+  position: absolute;
+  top: 25px;
+  left: -6px;
+  width: 172px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+  border-radius: 10px 10px 6px 6px;
+  z-index: 10;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gift-box.opened .gift-lid {
+  transform: translateY(-220px) rotate(-25deg) scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gift-bow {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 22px;
+  z-index: 11;
+}
+
+.gift-bow::before, .gift-bow::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 5px solid var(--gold-soft);
+  border-radius: 50%;
+  top: -8px;
+}
+
+.gift-bow::before {
+  left: -4px;
+  transform: rotate(-35deg);
+}
+
+.gift-bow::after {
+  right: -4px;
+  transform: rotate(35deg);
+}
+
+.gift-card {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 280px;
+  background: linear-gradient(135deg, var(--cream), var(--warm-white));
+  border-radius: 20px;
+  padding: 30px 24px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
+  z-index: -1;
+  color: #3d1528;
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  transform: translate(-50%, -30%) scale(0.4);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
+
+.gift-modal.opened .gift-card {
+  z-index: 20;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 25px 60px rgba(232, 83, 109, 0.5);
+  pointer-events: auto;
+}
+
+.gift-modal.opened .gift-box {
+  transform: scale(0.65) translateY(45px);
+  opacity: 0.35;
+}
+
+.gift-card-title {
+  font-family: var(--font-handwriting);
+  font-size: 2.3rem;
+  color: var(--pink-600);
+  margin-bottom: 12px;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.gift-card-text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #5a1e3a;
+  font-weight: 400;
+}
+
+/* Animations */
+@keyframes bounceGift {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  20% { transform: translateY(-12px) rotate(-4deg); }
+  40% { transform: translateY(0) rotate(3deg); }
+  60% { transform: translateY(-6px) rotate(-2deg); }
+  80% { transform: translateY(0) rotate(1deg); }
+}
+
+@keyframes pulseInstruction {
+  from { opacity: 0.65; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1.03); }
+}
+
